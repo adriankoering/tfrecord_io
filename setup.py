@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-setup_args = generate_distutils_setup(
+setup(
     name="TFRecord_IO",
     version="0.1",
     description='The funniest joke in the world',
@@ -10,4 +10,3 @@ setup_args = generate_distutils_setup(
     packages=find_packages(),
     install_requires=["tensorflow", "PIL", "pathlib"]
 )
-setup(**setup_args)
