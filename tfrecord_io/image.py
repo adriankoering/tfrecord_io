@@ -38,7 +38,7 @@ def read_and_resize_image(file_path: Path, target_size: Tuple[int, int]
   file_path:
       path to the image file
   target_size:
-      tuple of (width, height)
+      tuple of (height, width)
 
   Returns
   -------
@@ -48,7 +48,9 @@ def read_and_resize_image(file_path: Path, target_size: Tuple[int, int]
       the image size before resizing
   """
   img = Image.open(file_path)
-  original_size = img.size
-  img = img.resize(target_size)
+  owidth, oheight = img.size
 
-  return encode_image(img, img.format), original_size
+  theight, twidth = target_size
+  img = img.resize((twidth, theight))
+
+  return encode_image(img, img.format), (oheight, owidth)
