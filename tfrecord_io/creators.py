@@ -9,7 +9,7 @@ from tfrecord_io.features import bytes_feature, float_feature, int64_feature
 
 def create_detection_example(
         jpeg_encoded_image: bytes, image_shape: Tuple[int, int, int],
-        boxes: Tuple[List[int], List[int], List[int], List[int]],
+        boxes: Tuple[List[float], List[float], List[float], List[float]],
         classes: List[int], classes_text: List[bytes]) -> tf.train.Example:
   h, w, c = image_shape
   xmin, ymin, xmax, ymax = boxes
