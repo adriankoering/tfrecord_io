@@ -1,5 +1,4 @@
-""" Utility functions to read or encode images.
-"""
+""" Utility functions to read or encode images. """
 
 from io import BytesIO
 from pathlib import Path
@@ -11,9 +10,9 @@ from PIL import Image
 def encode_image(image: Image, format: str = "png", **params) -> bytes:
   """ Compress (aka encode) an 'image' into 'format'
   Args:
-      image: PIL.Image to be saved
-      format: image format to use for saving
-      params: optional named parameters passed to PIL. See for reference:
+    image: PIL.Image to be saved
+    format: image format to use for saving
+    params: optional named parameters passed to PIL. See for reference:
       https://pillow.readthedocs.io/en/3.1.x/handbook/image-file-formats.html?highlight=quality#fully-supported-formats
   Returns:
       encoded_image: bytes containing the encoded/compressed image
@@ -36,16 +35,16 @@ def read_and_resize_image(file_path: Path, target_size: Tuple[int, int]
   Parameters
   ----------
   file_path:
-      path to the image file
+    path to the image file
   target_size:
-      tuple of (height, width)
+    tuple of (height, width)
 
   Returns
   -------
-  encoded_image:
-      resized image encoded in the original image format
+  image:
+    resized image encoded in the original image format
   original_size:
-      the image size before resizing
+    the image size before resizing
   """
   img = Image.open(file_path)
   owidth, oheight = img.size
@@ -53,4 +52,4 @@ def read_and_resize_image(file_path: Path, target_size: Tuple[int, int]
   theight, twidth = target_size
   img = img.resize((twidth, theight))
 
-  return encode_image(img, img.format), (oheight, owidth)
+  return img, (oheight, owidth)
