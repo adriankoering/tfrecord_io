@@ -16,16 +16,16 @@ def create_detection_example(
   example = tf.train.Example(
       features=tf.train.Features(
           feature={
-              'image/height': _int64_feature(h),
-              'image/width': _int64_feature(w),
-              'image/filename': _bytes_feature(fname.encode("utf8")),
-              'image/encoded': _bytes_feature(jpeg_encoded_image),
-              'image/format': _bytes_feature('jpeg'.encode('utf8')),
-              'image/object/bbox/xmin': _float_feature(xmin),
-              'image/object/bbox/xmax': _float_feature(xmax),
-              'image/object/bbox/ymin': _float_feature(ymin),
-              'image/object/bbox/ymax': _float_feature(ymax),
-              'image/object/class/text': _bytes_feature(classes_text),
-              'image/object/class/label': _int64_feature(classes)
+              'image/height': int64_feature(h),
+              'image/width': int64_feature(w),
+              'image/filename': bytes_feature(fname.encode("utf8")),
+              'image/encoded': bytes_feature(jpeg_encoded_image),
+              'image/format': bytes_feature('jpeg'.encode('utf8')),
+              'image/object/bbox/xmin': float_feature(xmin),
+              'image/object/bbox/xmax': float_feature(xmax),
+              'image/object/bbox/ymin': float_feature(ymin),
+              'image/object/bbox/ymax': float_feature(ymax),
+              'image/object/class/text': bytes_feature(classes_text),
+              'image/object/class/label': int64_feature(classes)
           }))
   return example
