@@ -3,16 +3,35 @@
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
+import numpy as np
 import tensorflow as tf
 from tfrecord_io.features import bytes_feature, float_feature, int64_feature
 
 
 def create_detection_example(
         jpeg_encoded_image: bytes, image_shape: Tuple[int, int, int],
-        boxes: Tuple[List[float], List[float], List[float], List[float]],
-        classes: List[int], classes_text: List[bytes], filename: str = "") -> tf.train.Example:
+        boxes: np.ndarray, classes: List[int], classes_text: List[bytes],
+        filename: str = "") -> tf.train.Example:
+  """
+  Create an example compatible with tensorflow's object detection api.
+
+  Args:
+    jpeg_encoded_image:
+      jpeg encoded / compressed image
+    image_shape:
+      [height, width, channels] dimension of the image
+    boxes:
+      bounding boxes with shape [NumBoxes, 4] in relative coordinates and in
+      [xmin, ymin, xmax, ymax] order
+    classes:
+      class id's according to labelmap
+    classes_text:
+      binary encoded text representation of the class
+    filename:
+      name of the image file on disk
+  """
   h, w, c = image_shape
-  xmin, ymin, xmax, ymax = boxes
+  xmin, ymin, xmax, ymax = boxes.T
   example = tf.train.Example(
       features=tf.train.Features(
           feature={
