@@ -10,13 +10,15 @@ from PIL import Image
 def encode_image(image: Image, format: str = "png", **params) -> bytes:
   """ Compress (aka encode) an 'image' into 'format'
   Args:
-    image: PIL.Image to be saved
+    image: PIL.Image (or numpy array) to be saved
     format: image format to use for saving
     params: optional named parameters passed to PIL. See for reference:
       https://pillow.readthedocs.io/en/3.1.x/handbook/image-file-formats.html?highlight=quality#fully-supported-formats
   Returns:
       encoded_image: bytes containing the encoded/compressed image
   """
+  if not isistance(image, Image.Image):
+    image = Image.fromarray(image)
   buffer = BytesIO()
   image.save(buffer, format=format, **params)
   return buffer.getvalue()
