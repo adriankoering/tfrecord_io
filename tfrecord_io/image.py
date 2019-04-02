@@ -17,7 +17,7 @@ def encode_image(image: Image, format: str = "png", **params) -> bytes:
   Returns:
       encoded_image: bytes containing the encoded/compressed image
   """
-  if not isistance(image, Image.Image):
+  if not isinstance(image, Image.Image):
     image = Image.fromarray(image)
   buffer = BytesIO()
   image.save(buffer, format=format, **params)
