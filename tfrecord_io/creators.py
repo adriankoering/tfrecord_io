@@ -31,12 +31,17 @@ def create_detection_example(
       name of the image file on disk
   """
   h, w, c = image_shape
-  xmin, ymin, xmax, ymax = boxes.T
+  boxes = np.array(boxes)
+  if len(boxes):
+    xmin, ymin, xmax, ymax = boxes.T
+  else:
+    xmin, ymin, xmax, ymax = [], [], [], []
   example = tf.train.Example(
       features=tf.train.Features(
           feature={
               'image/height': int64_feature(h),
               'image/width': int64_feature(w),
+              'image/channels': int64_feature(c),
               'image/filename': bytes_feature(filename.encode("utf8")),
               'image/encoded': bytes_feature(jpeg_encoded_image),
               'image/format': bytes_feature('jpeg'.encode('utf8')),
