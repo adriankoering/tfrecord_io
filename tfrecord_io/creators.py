@@ -53,3 +53,82 @@ def create_detection_example(
               'image/object/class/label': int64_feature(classes)
           }))
   return example
+
+
+def create_classification_example(
+        encoded_image: bytes, image_shape: Tuple[int, int, int],
+        image_format: str, class_label: int,
+        probabilities: List[float]) -> tf.train.Example:
+  """ Create a tensorflow 'classification' Example with image and class label
+
+  Args:
+    encoded_image: encoded image file (aka compressed image (eg jpg or png))
+    image_shape: [height, width, num_color_channels] of the image
+    image_format: compression format of the image (eg jpeg or png)
+    class_label: the class index to which the image blongs
+    probabilities: probability distribution (usually one_hot encoded class)
+
+  Returns:
+    Example containing all information, ready to be serialized into a tfrecord
+  """
+  h, w, c = image_shape
+  example = tf.train.Example(
+      features=tf.train.Features(
+          feature={
+              "image/height": _int64_feature(h),
+              "image/width": _int64_feature(w),
+              "image/channels": _int64_feature(c),
+              "image/encoded": _bytes_feature(encoded_image),
+              "image/format": _bytes_feature(image_format.encode("utf8")),
+              "image/class/label": _int64_feature(class_label),
+              "image/class/prob": _float_feature(probabilities),
+          }))
+  return example
+
+
+def create_image_example(encoded_image: bytes,
+                         image_shape: Tuple[int, int, int],
+                         image_format: str) -> tf.train.Example:
+  """ Create a tensorflow 'image' Example with image only
+
+  Args:
+    encoded_image: encoded image file (aka compressed image (eg jpg or png))
+    image_shape: [height, width, num_color_channels] of the image
+    image_format: compression format of the image (eg jpeg or png)
+
+  Returns:
+    Example containing all information, ready to be serialized into a tfrecord
+  """
+  h, w, c = image_shape
+  example = tf.train.Example(
+      features=tf.train.Features(
+          feature={
+              "image/height": _int64_feature(h),
+              "image/width": _int64_feature(w),
+              "image/channels": _int64_feature(c),
+              "image/encoded": _bytes_feature(encoded_image),
+              "image/format": _bytes_feature(image_format.encode("utf8")),
+          }))
+  return example
+
+
+def create_probability_example(classes: int,
+                               probabilities: List[float]) -> tf.train.Example:
+   """ Create a probability Example with only probability targets
+
+   Args:
+     classes: class index
+     probabilities: list of np.ndarray
+       NumClasses long list with per-class probabilities in each entry
+   Returns:
+       Example containing all information, ready to be serialized into a tfrecord
+   """
+   if isinstance(probabilities, np.ndarray):
+     probabilities = probabilities.flatten().tolist()
+  example = tf.train.Example(
+      features=tf.train.Features(
+          feature={
+              "image/class/prob": _float_feature(probabilities),
+              "image/class/label": _int64_feature(classes),
+          }))
+  return example
