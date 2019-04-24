@@ -124,7 +124,7 @@ def create_probability_example(classes: int,
        Example containing all information, ready to be serialized into a tfrecord
    """
   if isinstance(probabilities, np.ndarray):
-     probabilities = probabilities.flatten().tolist()
+    probabilities = probabilities.flatten().tolist()
   example = tf.train.Example(
     features=tf.train.Features(
       feature={"image/class/prob": _float_feature(probabilities),
