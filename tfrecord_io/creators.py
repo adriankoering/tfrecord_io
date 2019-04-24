@@ -114,19 +114,20 @@ def create_image_example(encoded_image: bytes,
 
 def create_probability_example(classes: int,
                                probabilities: List[float]) -> tf.train.Example:
-   """ Create a probability Example with only probability targets
+  """ Create a probability Example with only probability targets
 
-   Args:
-     classes: class index
-     probabilities: list of np.ndarray
-       NumClasses long list with per-class probabilities in each entry
-   Returns:
-       Example containing all information, ready to be serialized into a tfrecord
-   """
+  Args:
+   classes: class index
+   probabilities: list of np.ndarray
+     NumClasses long list with per-class probabilities in each entry
+
+  Returns:
+     Example containing all information, ready to be serialized into a tfrecord
+  """
   if isinstance(probabilities, np.ndarray):
     probabilities = probabilities.flatten().tolist()
   example = tf.train.Example(
-    features=tf.train.Features(
-      feature={"image/class/prob": _float_feature(probabilities),
-               "image/class/label": _int64_feature(classes)}))
+      features=tf.train.Features(
+          feature={"image/class/prob": _float_feature(probabilities),
+                   "image/class/label": _int64_feature(classes)}))
   return example
