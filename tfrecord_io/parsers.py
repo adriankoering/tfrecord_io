@@ -69,7 +69,8 @@ def parse_detection(
   xmax = tf.sparse.to_dense(parsed_example["image/object/bbox/xmax"])
   bboxes = tf.stack((ymin, xmin, ymax, xmax), axis=-1)
 
-  text = tf.sparse.to_dense(parsed_example["image/object/class/text"])
+  text = tf.sparse.to_dense(
+      parsed_example["image/object/class/text"], default_value="")
   label = tf.sparse.to_dense(parsed_example["image/object/class/label"])
   return bboxes, label, text
 
