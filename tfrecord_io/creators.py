@@ -22,7 +22,7 @@ def create_detection_example(
       [height, width, channels] dimension of the image
     boxes:
       bounding boxes with shape [NumBoxes, 4] in relative coordinates and in
-      [xmin, ymin, xmax, ymax] order
+      [left, top, right, bottom] order
     classes:
       class id's according to labelmap
     classes_text:
@@ -33,9 +33,9 @@ def create_detection_example(
   h, w, c = image_shape
   boxes = np.array(boxes)
   if len(boxes):
-    xmin, ymin, xmax, ymax = boxes.T
+    left, top, right, bottom = boxes.T
   else:
-    xmin, ymin, xmax, ymax = [], [], [], []
+    left, top, right, bottom = [], [], [], []
   example = tf.train.Example(
       features=tf.train.Features(
           feature={
@@ -45,10 +45,10 @@ def create_detection_example(
               'image/filename': bytes_feature(filename.encode("utf8")),
               'image/encoded': bytes_feature(jpeg_encoded_image),
               'image/format': bytes_feature('jpeg'.encode('utf8')),
-              'image/object/bbox/xmin': float_feature(xmin),
-              'image/object/bbox/xmax': float_feature(xmax),
-              'image/object/bbox/ymin': float_feature(ymin),
-              'image/object/bbox/ymax': float_feature(ymax),
+              'image/object/bbox/xmin': float_feature(left),
+              'image/object/bbox/ymin': float_feature(top),
+              'image/object/bbox/xmax': float_feature(right),
+              'image/object/bbox/ymax': float_feature(bottom),
               'image/object/class/text': bytes_feature(classes_text),
               'image/object/class/label': int64_feature(classes)
           }))
