@@ -23,7 +23,7 @@ def parse_image(serialized: tf.Tensor) -> tf.Tensor:
   parsed_example = tf.io.parse_single_example(
       serialized,
       features={
-          "image/encoded": tf.FixedLenFeature((), tf.string)
+          "image/encoded": tf.io.FixedLenFeature((), tf.string)
       })
 
   image = tf.image.decode_jpeg(
@@ -91,7 +91,7 @@ def parse_classification(serialized: tf.Tensor) -> tf.Tensor:
   """
   parsed_example = tf.io.parse_single_example(
       serialized,
-      features={"image/class/label": tf.FixedLenFeature((), tf.int64)})
+      features={"image/class/label": tf.io.FixedLenFeature((), tf.int64)})
 
   label = parsed_example["image/class/label"]
   return label
