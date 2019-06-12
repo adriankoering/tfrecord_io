@@ -55,12 +55,12 @@ def parse_detection(
   parsed_example = tf.io.parse_single_example(
       serialized,
       features={
-          "image/object/bbox/ymin": tf.VarLenFeature(tf.float32),
-          "image/object/bbox/xmin": tf.VarLenFeature(tf.float32),
-          "image/object/bbox/ymax": tf.VarLenFeature(tf.float32),
-          "image/object/bbox/xmax": tf.VarLenFeature(tf.float32),
-          "image/object/class/text": tf.VarLenFeature(tf.string),
-          "image/object/class/label": tf.VarLenFeature(tf.int64),
+          "image/object/bbox/ymin": tf.io.VarLenFeature(tf.float32),
+          "image/object/bbox/xmin": tf.io.VarLenFeature(tf.float32),
+          "image/object/bbox/ymax": tf.io.VarLenFeature(tf.float32),
+          "image/object/bbox/xmax": tf.io.VarLenFeature(tf.float32),
+          "image/object/class/text": tf.io.VarLenFeature(tf.string),
+          "image/object/class/label": tf.io.VarLenFeature(tf.int64),
       })
 
   ymin = tf.sparse.to_dense(parsed_example["image/object/bbox/ymin"])
@@ -114,7 +114,7 @@ def parse_probability(serialized: tf.Tensor) -> tf.Tensor:
   parsed_example = tf.io.parse_single_example(
       serialized,
       features={
-          "image/class/prob": tf.VarLenFeature(tf.float32),
+          "image/class/prob": tf.io.VarLenFeature(tf.float32),
       })
 
   probabilities = tf.sparse.to_dense(parsed_example["image/class/prob"])
