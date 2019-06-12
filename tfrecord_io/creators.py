@@ -75,13 +75,13 @@ def create_classification_example(
   example = tf.train.Example(
       features=tf.train.Features(
           feature={
-              "image/height": _int64_feature(h),
-              "image/width": _int64_feature(w),
-              "image/channels": _int64_feature(c),
-              "image/encoded": _bytes_feature(encoded_image),
-              "image/format": _bytes_feature(image_format.encode("utf8")),
-              "image/class/label": _int64_feature(class_label),
-              "image/class/prob": _float_feature(probabilities),
+              "image/height": int64_feature(h),
+              "image/width": int64_feature(w),
+              "image/channels": int64_feature(c),
+              "image/encoded": bytes_feature(encoded_image),
+              "image/format": bytes_feature(image_format.encode("utf8")),
+              "image/class/label": int64_feature(class_label),
+              "image/class/prob": float_feature(probabilities),
           }))
   return example
 
@@ -103,11 +103,11 @@ def create_image_example(encoded_image: bytes,
   example = tf.train.Example(
       features=tf.train.Features(
           feature={
-              "image/height": _int64_feature(h),
-              "image/width": _int64_feature(w),
-              "image/channels": _int64_feature(c),
-              "image/encoded": _bytes_feature(encoded_image),
-              "image/format": _bytes_feature(image_format.encode("utf8")),
+              "image/height": int64_feature(h),
+              "image/width": int64_feature(w),
+              "image/channels": int64_feature(c),
+              "image/encoded": bytes_feature(encoded_image),
+              "image/format": bytes_feature(image_format.encode("utf8")),
           }))
   return example
 
@@ -128,6 +128,6 @@ def create_probability_example(classes: int,
     probabilities = probabilities.flatten().tolist()
   example = tf.train.Example(
       features=tf.train.Features(
-          feature={"image/class/prob": _float_feature(probabilities),
-                   "image/class/label": _int64_feature(classes)}))
+          feature={"image/class/prob": float_feature(probabilities),
+                   "image/class/label": int64_feature(classes)}))
   return example
