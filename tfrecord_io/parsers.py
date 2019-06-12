@@ -20,7 +20,7 @@ def parse_image(serialized: tf.Tensor) -> tf.Tensor:
   image:
       tf.Tensor with dtype tf.uint8 and shape [height, width, channels]
   """
-  parsed_example = tf.parse_single_example(
+  parsed_example = tf.io.parse_single_example(
       serialized,
       features={
           "image/encoded": tf.FixedLenFeature((), tf.string)
@@ -52,7 +52,7 @@ def parse_detection(
   texts:
       tf.Tensor with dtype tf.string and shape [num_boxes]
   """
-  parsed_example = tf.parse_single_example(
+  parsed_example = tf.io.parse_single_example(
       serialized,
       features={
           "image/object/bbox/ymin": tf.VarLenFeature(tf.float32),
@@ -89,7 +89,7 @@ def parse_classification(serialized: tf.Tensor) -> tf.Tensor:
   class:
       tf.Tensor with dtype tf.int64 and shape []
   """
-  parsed_example = tf.parse_single_example(
+  parsed_example = tf.io.parse_single_example(
       serialized,
       features={"image/class/label": tf.FixedLenFeature((), tf.int64)})
 
@@ -111,7 +111,7 @@ def parse_probability(serialized: tf.Tensor) -> tf.Tensor:
   probabilities:
       tf.Tensor with dtype tf.float and shape [num_classes]
   """
-  parsed_example = tf.parse_single_example(
+  parsed_example = tf.io.parse_single_example(
       serialized,
       features={
           "image/class/prob": tf.VarLenFeature(tf.float32),
