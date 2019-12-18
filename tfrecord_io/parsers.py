@@ -22,17 +22,15 @@ def parse_image(serialized: tf.Tensor) -> tf.Tensor:
   """
   parsed_example = tf.io.parse_single_example(
       serialized,
-      features={
-          "image/encoded": tf.io.FixedLenFeature((), tf.string)
-      })
+      features={"image/encoded": tf.io.FixedLenFeature((), tf.string)})
 
   image = tf.image.decode_jpeg(
       parsed_example["image/encoded"], channels=3, dct_method="INTEGER_FAST")
   return image
 
 
-def parse_detection(
-        serialized: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor, tf.Tensor]:
+def parse_detection(serialized: tf.Tensor
+                   ) -> Tuple[tf.Tensor, tf.Tensor, tf.Tensor]:
   """ Parse bounding boxes and classes contained in 'serialized' under the
       key 'image/object/bbox/{xmin, xmax, ymin, ymax}' and
       'image/object/class/{text, labels}' and returns a boundingbox and
