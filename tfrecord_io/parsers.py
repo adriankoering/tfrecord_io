@@ -135,10 +135,7 @@ def parse_segmentation(serialized: tf.Tensor) -> tf.Tensor:
   """
   key = "image/segmentation/class/encoded"
   parsed_example = tf.io.parse_single_example(
-      serialized, features={
-          key: tf.io.FixedLenFeature(tf.string),
-      })
+      serialized, features={key: tf.io.FixedLenFeature((), tf.string)})
 
   segmentation = tf.image.decode_png(parsed_example[key])
   return segmentation
-
