@@ -138,3 +138,28 @@ def parse_segmentation(serialized: tf.Tensor) -> tf.Tensor:
 
   segmentation = tf.image.decode_png(parsed_example[key])
   return segmentation
+
+
+def parse_instance_segmentation(serialized: tf.Tensor) -> tf.Tensor:
+  """ Parse segmentation contained in 'serialized' under the key
+       'image/object/mask' and returns it.
+
+  Parameters
+  ----------
+  serialized:
+    0-d tf.Tensor with dtype=tf.string containing the serialized example
+
+  Returns
+  -------
+  instance_segmentations:
+    tf.Tensor with dtype tf.int64 and shape [N, H, W, 1]
+  """
+  key = "image/object/mask"
+  parsed_example = tf.io.parse_single_example(
+      serialized, features={
+          key: tf.io.VarLenFeature(tf.string),
+      })
+
+  instance_segmentations = tf.map_fn(
+      tf.image.decode_png, parsed_example[key], dtype=tf.uint8)
+  return instance_segmentations
