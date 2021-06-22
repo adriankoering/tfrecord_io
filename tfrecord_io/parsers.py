@@ -7,13 +7,15 @@ from typing import Tuple
 import tensorflow as tf
 
 
-def parse_image(serialized: tf.Tensor) -> tf.Tensor:
+def parse_image(serialized: tf.Tensor, channels: int = 3) -> tf.Tensor:
     """Parse an image contained in 'serialized' under the key 'image/encoded'.
 
     Parameters
     ----------
     serialized:
         0-d tf.Tensor with dtype=tf.string containing the serialized example
+    channels: int
+        number of color channels in the returned image
 
     Returns
     -------
@@ -24,7 +26,7 @@ def parse_image(serialized: tf.Tensor) -> tf.Tensor:
         serialized, features={"image/encoded": tf.io.FixedLenFeature((), tf.string)}
     )
 
-    image = tf.image.decode_jpeg(parsed_example["image/encoded"])
+    image = tf.image.decode_jpeg(parsed_example["image/encoded"], channels=channels)
     return image
 
 
