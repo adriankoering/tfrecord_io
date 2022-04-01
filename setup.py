@@ -8,5 +8,5 @@ setup(
     author="Adrian Köring",
     license="MIT",
     packages=find_packages(),
-    install_requires=["pillow", "pathlib"],
+    install_requires=["pillow"],
 )
