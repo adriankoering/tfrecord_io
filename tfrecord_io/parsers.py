@@ -10,17 +10,12 @@ import tensorflow as tf
 def parse_image(serialized: tf.Tensor, channels: int = 3) -> tf.Tensor:
     """Parse an image contained in 'serialized' under the key 'image/encoded'.
 
-    Parameters
-    ----------
-    serialized:
-        0-d tf.Tensor with dtype=tf.string containing the serialized example
-    channels: int
-        number of color channels in the returned image
+    Args:
+        serialized: 0-d tf.Tensor with dtype=tf.string containing the serialized example
+        channels: int, number of color channels in the returned image
 
-    Returns
-    -------
-    image:
-        tf.Tensor with dtype tf.uint8 and shape [height, width, channels]
+    Returns:
+        image: tf.Tensor with dtype tf.uint8 and shape [height, width, channels]
     """
     parsed_example = tf.io.parse_single_example(
         serialized, features={"image/encoded": tf.io.FixedLenFeature((), tf.string)}
@@ -36,19 +31,13 @@ def parse_detection(serialized: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor, tf.Ten
         'image/object/class/{text, labels}' and returns a boundingbox and
         class Tensor.
 
-    Parameters
-    ----------
-    serialized:
-        0-d tf.Tensor with dtype=tf.string containing the serialized example
+    Args:
+        serialized: 0-d tf.Tensor with dtype=tf.string containing the serialized example
 
-    Returns
-    -------
-    boundingboxes:
-        tf.Tensor with dtype tf.int32 and shape [num_boxes, 4]
-    classes:
-        tf.Tensor with dtype tf.int32 and shape [num_boxes]
-    texts:
-        tf.Tensor with dtype tf.string and shape [num_boxes]
+    Returns:
+        boundingboxes: tf.Tensor with dtype tf.int32 and shape [num_boxes, 4]
+        classes: tf.Tensor with dtype tf.int32 and shape [num_boxes]
+        texts: tf.Tensor with dtype tf.string and shape [num_boxes]
     """
     parsed_example = tf.io.parse_single_example(
         serialized,
@@ -79,15 +68,10 @@ def parse_classification(serialized: tf.Tensor) -> tf.Tensor:
     """Parse a classlabel contained in 'serialized' under the key
         'image/class/label' and return it.
 
-    Parameters
-    ----------
-    serialized:
-        0-d tf.Tensor with dtype=tf.string containing the serialized example
-
-    Returns
-    -------
-    class:
-        tf.Tensor with dtype tf.int64 and shape []
+    Args:
+        serialized: 0-d tf.Tensor with dtype=tf.string containing the serialized example
+    Returns:
+        class: tf.Tensor with dtype tf.int64 and shape []
     """
     parsed_example = tf.io.parse_single_example(
         serialized, features={"image/class/label": tf.io.FixedLenFeature((), tf.int64)}
@@ -101,15 +85,10 @@ def parse_probability(serialized: tf.Tensor) -> tf.Tensor:
     """Parse probabilities contained in 'serialized' under the key
         'image/class/prob' and returns them.
 
-    Parameters
-    ----------
-    serialized:
-        0-d tf.Tensor with dtype=tf.string containing the serialized example
-
-    Returns
-    -------
-    probabilities:
-        tf.Tensor with dtype tf.float and shape [num_classes]
+    Args:
+        serialized: 0-d tf.Tensor with dtype=tf.string containing the serialized example
+    Returns:
+        probabilities: tf.Tensor with dtype tf.float and shape [num_classes]
     """
     parsed_example = tf.io.parse_single_example(
         serialized,
@@ -126,15 +105,10 @@ def parse_segmentation(serialized: tf.Tensor) -> tf.Tensor:
     """Parse segmentation contained in 'serialized' under the key
          'image/segmentation/class/encoded' and returns it.
 
-    Parameters
-    ----------
-    serialized:
-      0-d tf.Tensor with dtype=tf.string containing the serialized example
-
-    Returns
-    -------
-    segmentation:
-      tf.Tensor with dtype tf.int64 and shape [H, W, 1]
+    Args:
+        serialized: 0-d tf.Tensor with dtype=tf.string containing the serialized example
+    Returns:
+        segmentation: tf.Tensor with dtype tf.int64 and shape [H, W, 1]
     """
     key = "image/segmentation/class/encoded"
     parsed_example = tf.io.parse_single_example(
@@ -149,15 +123,10 @@ def parse_instance_segmentation(serialized: tf.Tensor) -> tf.Tensor:
     """Parse segmentation contained in 'serialized' under the key
          'image/object/mask' and returns it.
 
-    Parameters
-    ----------
-    serialized:
-      0-d tf.Tensor with dtype=tf.string containing the serialized example
-
-    Returns
-    -------
-    instance_segmentations:
-      tf.Tensor with dtype tf.int64 and shape [N, H, W, 1]
+    Args:
+        serialized: 0-d tf.Tensor with dtype=tf.string containing the serialized example
+    Returns:
+        instance_segmentations: tf.Tensor with dtype tf.int64 and shape [N, H, W, 1]
     """
     key = "image/object/mask"
     parsed_example = tf.io.parse_single_example(
