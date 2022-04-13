@@ -28,7 +28,7 @@ def add_classification_features(labelid: int):
 def add_probability_features(probabilities):
     if isinstance(probabilities, np.ndarray):
         probabilities = probabilities.flatten().tolist()
-        return {"image/class/prob": float_feature(probabilities)}
+    return {"image/class/prob": float_feature(probabilities)}
 
 
 def add_detection_features(
