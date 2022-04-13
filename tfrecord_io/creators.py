@@ -127,7 +127,7 @@ def create_image_example(
     Returns:
         example: tf.train.Example
     """
-    image_features = add_image_features(image, format=encoding_format, **params)
+    image_features = add_image_features(image, encoding_format, **params)
     return tf.train.Example(features=tf.train.Features(feature=image_features))
 
 
