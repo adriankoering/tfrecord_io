@@ -8,12 +8,12 @@ from PIL import Image
 
 
 def encode_image(image: Image, format: str = "png", **params) -> bytes:
-    """Compress (aka encode) an 'image' into 'format'
+    """Compress (aka encode) an 'image' into 'format' using optional parameters
     Args:
-      image: PIL.Image (or numpy array) to be saved
-      format: image format to use for saving
-      params: optional named parameters passed to PIL. See for reference:
-        https://pillow.readthedocs.io/en/3.1.x/handbook/image-file-formats.html?highlight=quality#fully-supported-formats
+        image: PIL.Image (or numpy array) to be saved
+        format: image format to use for saving
+        params: optional named parameters passed to PIL. See for reference:
+            https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html
     Returns:
         encoded_image: bytes containing the encoded/compressed image
     """
@@ -25,7 +25,7 @@ def encode_image(image: Image, format: str = "png", **params) -> bytes:
 
 
 def read_image(file_path: Path) -> bytes:
-    """ Read image from disk and return it """
+    """Read image from disk and return it"""
     with file_path.open("rb") as f:
         return f.read()
 
@@ -35,19 +35,17 @@ def read_and_resize_image(
 ) -> Tuple[bytes, Tuple[int, int]]:
     """Read the from disk and resize it to target size.
 
-    Parameters
-    ----------
-    file_path:
-      path to the image file
-    target_size:
-      tuple of (height, width)
+    Args:
+        file_path:
+            path to the image file
+        target_size:
+            tuple of (height, width)
 
-    Returns
-    -------
-    image:
-      resized image encoded in the original image format
-    original_size:
-      the image size before resizing
+    Returns:
+        image:
+            resized image encoded in the original image format
+        original_size:
+            the image size (height, width) before resizing
     """
     img = Image.open(file_path)
     owidth, oheight = img.size
