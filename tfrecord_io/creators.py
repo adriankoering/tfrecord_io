@@ -148,7 +148,7 @@ def create_classification_example(
     Returns:
         example: tf.train.Example
     """
-    image_features = add_image_features(image, format=encoding_format)
+    image_features = add_image_features(image, encoding_format, **params)
     label_features = add_classification_features(labelid)
     features = {**image_features, **label_features}
     return tf.train.Example(features=tf.train.Features(feature=features))
@@ -174,7 +174,7 @@ def create_probability_example(
     Returns:
         example: tf.train.Example
     """
-    image_features = add_image_features(image, format=encoding_format)
+    image_features = add_image_features(image, encoding_format, **params)
     label_features = add_classification_features(labelids)
     prob_features = add_probability_features(probabilities)
     features = {**image_features, **label_features, **prob_features}
@@ -204,7 +204,7 @@ def create_detection_example(
     Returns:
         example: tf.train.Example
     """
-    image_features = add_image_features(image, format=encoding_format)
+    image_features = add_image_features(image, encoding_format, **params)
     detection_features = add_detection_features(boxes, labelids, class_names)
     features = {**image_features, **detection_features}
     return tf.train.Example(features=tf.train.Features(feature=features))
@@ -235,7 +235,7 @@ def create_instance_segmentation_example(
     Returns:
         example: tf.train.Example
     """
-    image_features = add_image_features(image, format=encoding_format)
+    image_features = add_image_features(image, encoding_format, **params)
     detection_features = add_detection_features(boxes, labelids, class_names)
     mask_features = add_instance_segmentation_features(masks)
     features = {**image_features, **detection_features, **mask_features}
@@ -261,7 +261,7 @@ def create_segmentation_example(
     Returns:
         example: tf.train.Example
     """
-    image_features = add_image_features(image, format=encoding_format)
+    image_features = add_image_features(image, encoding_format, **params)
     segmentation_features = add_segmentation_features(segmentation)
     features = {**image_features, **segmentation_features}
     return tf.train.Example(features=tf.train.Features(feature=features))
@@ -287,7 +287,7 @@ def create_classification_and_segmentation_example(
     Returns:
         example: tf.train.Example
     """
-    image_features = add_image_features(image, format=encoding_format)
+    image_features = add_image_features(image, encoding_format, **params)
     label_features = add_classification_features(labelid)
     segmentation_features = add_segmentation_features(segmentation)
     features = {**image_features, **label_features, **segmentation_features}
