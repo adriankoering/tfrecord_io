@@ -26,7 +26,7 @@ def parse_image(serialized: tf.Tensor, channels: int = 3) -> tf.Tensor:
         serialized, features={"image/encoded": tf.io.FixedLenFeature((), tf.string)}
     )
 
-    image = tf.image.decode_jpeg(parsed_example["image/encoded"], channels=channels)
+    image = tf.image.decode_image(parsed_example["image/encoded"], channels=channels)
     return image
 
 
